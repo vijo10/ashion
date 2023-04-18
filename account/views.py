@@ -46,61 +46,48 @@ def register(request):
   return render(request,'account/register.html', context)
 
 def login(request):
-  if request.method == "POST":
-    email=request.POST['email']
-    password=request.POST['password']
-    user=auth.authenticate(email=email,password=password)
-    if user is not None:
-      try:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        is_cart_item_exits=CartItem.objects.filter(cart=cart).exists() 
-        if is_cart_item_exits:
-          cart_item=CartItem.objects.filter(cart=cart)
-          product_variation=[]
-          for item in cart_item:
-            variation=item.variations.all()
-            product_variation.append(list(variation))
-          
-          cart_item=CartItem.objects.filter(user=user)
-          ex_var_list=[]
-          id=[]
-          for item in cart_item:
-            existing_variation=item.variations.all()
-            ex_var_list.append(list(existing_variation))
-            id.append(item.id)
-          
-          for pr in product_variation:
-            if pr in ex_var_list:
-              index=ex_var_list.index(pr)
-              item_id=id[index]
-              item=CartItem.objects.get(id=item_id)
-              item.quantity += 1
-              item.user = user
-              item.save()
-              CartItem.objects.filter(cart=cart, product=item.product).delete()
-            else:
-              cart_item=CartItem.objects.filter(cart=cart)
-              for item in cart_item:
-                item.cart_id=None
-                item.user = user
-                item.save()
-      except:
-        pass
-      auth.login(request,user)
-      messages.success(request,f'{user.username} Logged in successfull!')
-      url=request.META.get('HTTP_REFERER')
-      try:
-        query=requests.utils.urlparse(url).query
-        params=dict(x.split('=') for x in query.split('&'))
-        if 'next' in params:
-          nextPage=params['next']
-          return redirect(nextPage)
-      except:
-        return redirect('dashboard')
-    else:
-      messages.error(request,'Invalid login credentials')
-      return redirect('login')
-  return render(request,'account/login.html')  
+    if request.method == "POST":
+        email = request.POST['email']
+        password = request.POST['password']
+        user = auth.authenticate(email=email, password=password)
+        if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id=_cart_id(request))
+                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists() 
+                if is_cart_item_exists:
+                    cart_items = CartItem.objects.filter(cart=cart)
+                    for item in cart_items:
+                        product = item.product
+                        variations = item.variations.all()
+                        if variations:
+                          user_cart = CartItem.objects.filter(product=product, user=user, variations__in=variations).first()
+                        else:
+                           user_cart = CartItem.objects.filter(product=product, user=user, variations__isnull=True).first()
+                        if user_cart:
+                            user_cart.quantity += item.quantity
+                            user_cart.save()
+                        else:
+                            item.user = user
+                            item.cart = None 
+                            item.save()
+                cart_items.delete()
+            except:
+                pass
+            auth.login(request, user)
+            messages.success(request, f'{user.username} Logged in successfully!')
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query = requests.utils.urlparse(url).query
+                params = dict(x.split('=') for x in query.split('&'))
+                if 'next' in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+            except:
+                return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid login credentials')
+            return redirect('login')
+    return render(request, 'account/login.html')
 
 @login_required(login_url='login')
 def logout(request):

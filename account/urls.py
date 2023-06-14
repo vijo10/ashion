@@ -5,6 +5,7 @@ urlpatterns=[
   path('',views.dashboard,name='dashboard'),
   path('register/',views.register,name='register'),
   path('login/',views.login,name='login'),
+  path('otp/',views.otp_verify,name='otp'),
   path('logout/',views.logout,name='logout'),
   path('actiavte/<uidb64>/<token>/',views.activate,name='activate'),
   path('forgot_password/',views.forgot_password,name='forgot_password'),

@@ -62,16 +62,8 @@
                             </div>
                             <h3>${{product.price}} <span>${{product.original_price}}</span></h3>
                             <p>{{product.description}}</p>
-                            {% if product.variation_set.colors and product.variation_set.colors %}
+                            {% if product.variation_set.sizes %}
                             <div class="product__details__option">
-                                <div class="product__details__option__color">
-                                    <span>Color:</span>
-                                    {% for i in product.variation_set.colors %}
-                                    <label class="{{i.variation_value | lower}}" >
-                                        <input type="radio" name="{{i.variation_category | lower}}" value="{{i.variation_value | capfirst}}">
-                                    </label>
-                                    {% endfor %}
-                                </div>
                                 <div class="product__details__option__size">
                                     <span>Size:</span>
                                     {% for i in product.variation_set.sizes %}

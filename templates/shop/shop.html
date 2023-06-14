@@ -135,7 +135,7 @@
                     {% if products.has_other_pages %}
                       <div class="product__pagination">
                         {% if products.has_previous %}
-                          <a class="" href="?page={{products.previous_page_number}}"><abbr title="Previous" lang="en" style="text-decoration: none;">P</abbr></a>
+                          <a class="" href="?page={{products.previous_page_number}}">&larr;</a>
                         {% else %}
                         <input type="hidden" name="">
                         {% endif %} 
@@ -147,7 +147,7 @@
                         {% endif %}
                         {% endfor %} 
                         {% if products.has_next %}
-                        <a href="?page={{products.next_page_number}}"><abbr title="Next" lang="en" style="text-decoration: none;">N</abbr></a>
+                        <a href="?page={{products.next_page_number}}">&rarr;</a>
                         {% else %}
                         <input type="hidden" name="">
                         {% endif %} 

@@ -61,15 +61,10 @@
           <div class="col-lg-4 col-md-4">
               <nav class="header__menu mobile-menu">
                   <ul>
-                      <li><a href="#">Category</a>
-                          <ul class="dropdown">
-                            <li><a href="{% url 'shop' %}">All Products</a></li>
-                            {% for category in links %}
-                            <li><a href="{{category.get_url}}">{{category.category_name}}</a></li>
-                            {% endfor %}
-                          </ul>
-                      </li>
-                      <li><a href="{% url 'shop' %}">Shop</a></li>
+                    <li><a href="{% url 'shop' %}">Shop</a></li>
+                    {% for category in links %}
+                    <li><a href="{{category.get_url}}">{{category.category_name}}</a></li>
+                    {% endfor %}
                   </ul>
               </nav>
           </div>

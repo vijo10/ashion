@@ -33,6 +33,54 @@ Ashion is a basic ecommerce website that allows users to browse products, add th
 - Sales Management
 - Coupon Mangement
 
+## Prerequisites
+
+Make sure you have the following installed on your system:
+
+- Python 3.x
+- Django
+
+## Getting Started
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/vijo10/ashion.git
+   
+2. Navigate to the project directory:
+   
+   ```bash
+   cd ashion
+
+3. Create a virtual environment (optional but recommended):
+
+   ```bash
+   python3 -m venv env
+     
+4. Activate the virtual environment:
+
+   ```bash
+   env\Scripts\activate
+
+5. Install the required dependencies:
+   
+   ```bash
+   pip install -r requirements.txt
+   
+
+6. Start the development server:
+   
+   ```bash
+   python manage.py runserver
+  
+7. Open your web browser and access the application at **`http://localhost:8000`.**  
+     
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, please submit an issue or a pull request.
+
+
+
 ## Feedback
 
 Thank you for taking the time to explore Ashion. If you have any feedback or suggestions for improvement, please feel free to reach out. I am always open to learning and improving my skills as a developer. If you have any feedback, please reach out to me at vijolouis11@gmail.com or https://www.linkedin.com/in/vijo-louis-88965b256/

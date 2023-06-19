@@ -130,9 +130,6 @@ def otp_verify(request):
             messages.error(request, 'OTP verification failed')
     return render(request, 'account/otp.html')
 
-
-
-
 @login_required(login_url='login')
 def logout(request):
   auth.logout(request)

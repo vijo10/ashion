@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}Check Out{% endblock  %}
+{% block content %}
+
+ <!-- Breadcrumb Section Begin -->
+ <section class="breadcrumb-option">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="breadcrumb__text">
+                  <h4>Check Out</h4>
+                  <div class="breadcrumb__links">
+                      <a href="{% url 'home' %}">Home</a>
+                      <a href="{% url 'shop' %}">Shop</a>
+                      <span>Check Out</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+  <div class="container">
+    {% include 'includes/alert.html' %}
+      <div class="checkout__form">
+              <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                      <h6 class="checkout__title">Billing Details</h6>
+                      <form action="{% url 'place_order' %}" method="POST">
+                        {% csrf_token %}
+                      <div class="row">
+                        <div class="col form-group">
+                            <label>First name</label>
+                            <input type="text" name="first_name" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                          <div class="col form-group">
+                            <label>Last name</label>
+                            <input type="text" name="last_name" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                        </div> <!-- form-row end.// -->
+                        <div class="form-row">
+                          <div class="col form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                          <div class="col form-group">
+                            <label>Phone Number</label>
+                            <input type="text" name="phone_number" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                        </div> <!-- form-row.// -->
+                        <div class="form-row">
+                          <div class="col form-group">
+                            <label>Address Line1</label>
+                            <input type="text" name="address_line_1" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                          <div class="col form-group">
+                            <label>Address Line2</label>
+                            <input type="text" name="address_line_2" class="form-control">
+                          </div> <!-- form-group end.// -->
+                        </div>
+                        <div class="form-row">
+                          <div class="col form-group">
+                            <label>City</label>
+                            <input type="text" name="city" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                          <div class="col form-group">
+                            <label>State</label>
+                            <input type="text" name="state" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                          <div class="col form-group">
+                            <label>Country</label>
+                            <input type="text" name="country" class="form-control" required>
+                          </div> <!-- form-group end.// -->
+                        </div>
+                        <div class="form-row">
+                          <label>Order Note</label>
+                          <textarea name="order_note" rows="2" class="form-control"></textarea>
+                        </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                      <div class="checkout__order">
+                          <h4 class="order__title">Your order</h4>
+                          <table>
+                            <tr>
+                                <th class="col">Product</th>
+                                <th class="col">Quantity</th>
+                                <th class="col">Total</th>
+                            </tr>
+                            {% for cart_item in cart_items %}
+                            <tr>
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic">
+                                        <img src="{{cart_item.product.images.url}}" class="cart_image" alt="">
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <a href="{{cart_item.product.get_url}}"><h6>{{cart_item.product.product_name}}</h6></a>
+                                        <p class="small">
+                                            {% if cart_item.variations.all %}
+                                            {% for i in cart_item.variations.all %}
+                                            {{i.variation_category}}: {{i.variation_value}}&nbsp;&nbsp;
+                                            {% endfor %}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td class="text-center">{{cart_item.quantity}}</td>
+                                <td>$ {{cart_item.sub_total}} <small class="text-muted">${{cart_item.product.price}} each</small></td>
+                            </tr>
+                            {% endfor %}
+                          </table>
+                          <button type="submit" class="site-btn">PLACE ORDER</button>
+                          <a href="{% url 'shop' %}" class="site-btn text-center" style="background-color: rgb(247, 240, 240); color: black; border: 1px solid #e1e1e1;">Continue Shopping</a>
+                        </form>
+                        </div>
+                  </div>
+              </div>
+      </div>
+  </div>
+</section>
+<!-- Checkout Section End -->
+{% endblock  %}
